@@ -24,6 +24,8 @@ export default function ProfileCards({
     try {
       setIsLoading(true);
 
+      console.log('Swiped!', direction);
+
       if (direction === 'right') {
         const { error: matchError } = await supabase.from('matches').insert({
           user1_id: userId,

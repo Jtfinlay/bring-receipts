@@ -6,7 +6,9 @@ When a user signs up, they will allow to their bank accounts through plaid. An u
 
 Please put mock data in storage for 15 different users so we can show the system working e2e
 
-### Setup
+## Local Development -- First time run
+
+### Supabase
 
 Run docker with [these settings](https://supabase.com/docs/guides/local-development/cli/getting-started?queryGroups=platform&platform=windows#running-supabase-locally)
 
@@ -40,4 +42,13 @@ supabase gen types typescript --local > utils/database.types.ts
 
 // Production
 npx supabase gen types typescript --project-id "$PROJECT_REF" --schema public > utils/database.types.ts
+```
+
+### Upstash
+
+Guide: https://upstash.com/docs/workflow/quickstarts/vercel-nextjs#option-1%3A-local-qstash-server
+
+Start local QStash server:
+```
+npx @upstash/qstash-cli dev
 ```

@@ -19,7 +19,7 @@ export const signUpAction = async (formData: FormData) => {
     );
   }
 
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -30,13 +30,29 @@ export const signUpAction = async (formData: FormData) => {
   if (error) {
     console.error(error.code + " " + error.message);
     return encodedRedirect("error", "/sign-up", error.message);
-  } else {
-    return encodedRedirect(
+  }
+  
+  const { error: error2 } = await supabase.from('profiles').insert({
+    id: data.user?.id,
+    name: email?.split('@')[0] || 'Anonymous', // Basic name from email
+    age: 25, // Default age
+    bio: 'No bio yet', // Default bio
+    gender: "male",
+    photos: [], // Empty photos array
+    created_at: new Date().toISOString(),
+    // updated_at: new Date().toISOString()
+  });
+
+  if (error2) {
+    console.error(error2);
+  }
+  
+  return encodedRedirect(
       "success",
       "/sign-up",
       "Thanks for signing up! Please check your email for a verification link.",
     );
-  }
+  
 };
 
 export const signInAction = async (formData: FormData) => {
