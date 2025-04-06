@@ -16,10 +16,10 @@ Setup supabase:
 
 ```
 supabase start
-tsx .\scripts\seed-mock-data.ts
+npx tsx .\scripts\seed-mock-data.ts
 ```
 
-Create an .env.local with these values, the supabase values are shown in cmd line once its running
+Copy `.env.example` to `.env.local`, and populate it with sample values.
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=xx
@@ -27,21 +27,14 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=xx
 NEXT_PUBLIC_SUPABASE_SERVICE_KEY=xx
 PLAID_CLIENT_ID=xx
 PLAID_SECRET=xx
-UPSTASH_REDIS_URL=xx
-UPSTASH_REDIS_TOKEN=xx
-QSTASH_TOKEN=xx
-QSTASH_CURRENT_SIGNING_KEY=xx
-QSTASH_NEXT_SIGNING_KEY=xx
 ```
 
-To refresh the `database.types.ts`,
+If you've made schema changes and need to reset local storage & schemas
 
 ```
-// Local development
+supabase db reset
 supabase gen types typescript --local > utils/database.types.ts
-
-// Production
-npx supabase gen types typescript --project-id "$PROJECT_REF" --schema public > utils/database.types.ts
+npx tsx .\scripts\seed-mock-data.ts
 ```
 
 ### Upstash
@@ -49,6 +42,7 @@ npx supabase gen types typescript --project-id "$PROJECT_REF" --schema public > 
 Guide: https://upstash.com/docs/workflow/quickstarts/vercel-nextjs#option-1%3A-local-qstash-server
 
 Start local QStash server:
+
 ```
 npx @upstash/qstash-cli dev
 ```

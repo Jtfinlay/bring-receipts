@@ -1,8 +1,5 @@
-
-
 import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
-
 
 export async function POST(request: Request) {
   try {
@@ -10,15 +7,15 @@ export async function POST(request: Request) {
 
     // Get the authenticated user
     const {
-      data: { session },
-    } = await supabase.auth.getSession();
+      data: { user },
+    } = await supabase.auth.getUser();
 
-    if (!session?.user) {
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const userId = session.user.id;
-    const email = session.user.email;
+    const userId = user.id;
+    const email = user.email;
 
     // Insert into profiles table
     const { error } = await supabase.from('profiles').insert({
@@ -29,7 +26,7 @@ export async function POST(request: Request) {
       bio: 'No bio yet', // Default bio
       photos: [], // Empty photos array
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
     });
 
     if (error) {
@@ -38,12 +35,11 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ success: true });
-
   } catch (error) {
     console.error('Webhook error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
