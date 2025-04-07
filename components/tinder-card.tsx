@@ -44,6 +44,7 @@ export default function ProfileCard({ profile, onSwipe }: Props) {
             {profile.name}, {profile.age}
           </h2>
           <p className="mt-2 text-sm line-clamp-2">{profile.bio}</p>
+          <p>{profile.categories?.join(', ')}</p>
         </div>
       </div>
     </TinderCard>

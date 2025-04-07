@@ -17,6 +17,8 @@ create table profiles (
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
+alter table "profiles" enable row level security;
+
 create table matches (
   id uuid default uuid_generate_v4() primary key,
   user1_id uuid references profiles(id),
@@ -27,6 +29,8 @@ create table matches (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
+
+alter table "matches" enable row level security;
 
 create table plaid_items (
   item_id text primary key,
@@ -40,6 +44,7 @@ create table plaid_items (
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
+alter table "plaid_items" enable row level security;
 
 create table transactions (
   id text primary key,
@@ -56,6 +61,10 @@ create table transactions (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 ); 
+
+alter table "transactions" enable row level security;
+
+create index idx_transactions_user on transactions(user1_id, user2_id);
 
 -- Add updated_at trigger
 create or replace function update_updated_at_column()
@@ -85,3 +94,6 @@ create trigger update_transactions_updated_at
   before update on transactions
   for each row
   execute function update_updated_at_column(); 
+
+ALTER ROLE authenticator SET pgrst.db_aggregates_enabled = 'true';
+NOTIFY pgrst, 'reload config';

@@ -6,8 +6,7 @@ import {
   Products,
 } from 'plaid';
 import { createClient } from '@/utils/supabase/server';
-import { NextResponse } from 'next/server';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 
 const configuration = new Configuration({
   basePath: PlaidEnvironments.sandbox,
@@ -21,7 +20,7 @@ const configuration = new Configuration({
 
 const plaidClient = new PlaidApi(configuration);
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextResponse) {
   try {
     const supabase = await createClient();
     const {
@@ -53,3 +52,4 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
     );
   }
 }
+z;

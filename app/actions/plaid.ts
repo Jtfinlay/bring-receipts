@@ -257,3 +257,25 @@ export const syncData = async () => {
   );
   return { result: 'success' };
 };
+
+export const evaluateUserCategories = async () => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: 'user is not valid' };
+  }
+
+  const { data, error } = await supabase
+    .from('transactions')
+    .select('category, amount.sum()')
+    .eq('user_id', user.id);
+
+  if (error) {
+    return { error: 'unable to query transactions' };
+  }
+
+  console.log(data);
+};

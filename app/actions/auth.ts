@@ -40,7 +40,6 @@ export const signUpAction = async (formData: FormData) => {
     gender: 'male',
     photos: [], // Empty photos array
     created_at: new Date().toISOString(),
-    // updated_at: new Date().toISOString()
   });
 
   if (error2) {

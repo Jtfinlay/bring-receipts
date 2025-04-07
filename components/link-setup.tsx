@@ -33,7 +33,7 @@ export default function LinkSetup(props: IOwnProps) {
 
       await response.json();
 
-      window.history.pushState('', '', '/protected/setup-profile');
+      window.history.pushState('', '', '/');
     };
 
     exchangePublicTokenForAccessToken();
