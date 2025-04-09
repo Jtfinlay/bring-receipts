@@ -16,7 +16,6 @@ Setup supabase:
 
 ```
 supabase start
-npx tsx .\scripts\seed-mock-data.ts
 ```
 
 Copy `.env.example` to `.env.local`, and populate it with sample values.

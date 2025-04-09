@@ -258,15 +258,15 @@ export const syncData = async () => {
   return { result: 'success' };
 };
 
-export const evaluateUserCategories = async () => {
+export const evaluateUserCategories = async (user: User) => {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // const {
+  //   data: { user },
+  // } = await supabase.auth.getUser();
 
-  if (!user) {
-    return { error: 'user is not valid' };
-  }
+  // if (!user) {
+  //   return { error: 'user is not valid' };
+  // }
 
   const { data, error } = await supabase
     .from('transactions')

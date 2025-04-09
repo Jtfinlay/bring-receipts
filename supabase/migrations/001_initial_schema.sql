@@ -18,6 +18,8 @@ create table profiles (
 );
 
 alter table "profiles" enable row level security;
+CREATE POLICY "Enable insert to profiles for authenticated users only" ON public.profiles FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "Individuals can view their own profiles." ON public.profiles FOR SELECT USING ( (SELECT auth.uid()) = id );
 
 create table matches (
   id uuid default uuid_generate_v4() primary key,
@@ -31,6 +33,7 @@ create table matches (
 );
 
 alter table "matches" enable row level security;
+CREATE POLICY "Enable insert to matches for authenticated users only" ON public.matches FOR INSERT WITH CHECK (auth.role() = 'authenticated');
 
 create table plaid_items (
   item_id text primary key,
@@ -45,6 +48,8 @@ create table plaid_items (
 );
 
 alter table "plaid_items" enable row level security;
+CREATE POLICY "Enable insert to plaid_items for authenticated users only" ON public.plaid_items FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "Individuals can view their own items." ON public.plaid_items FOR SELECT USING ( (SELECT auth.uid()) = user_id );
 
 create table transactions (
   id text primary key,
@@ -63,8 +68,10 @@ create table transactions (
 ); 
 
 alter table "transactions" enable row level security;
+CREATE POLICY "Enable insert to transactions for authenticated users only" ON public.transactions FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "Individuals can view their own transactions." ON public.transactions FOR SELECT USING ( (SELECT auth.uid()) = user_id );
 
-create index idx_transactions_user on transactions(user1_id, user2_id);
+create index idx_transactions_user on transactions(user_id);
 
 -- Add updated_at trigger
 create or replace function update_updated_at_column()

@@ -22,10 +22,16 @@ export default async function Home() {
     .neq('id', user.id)
     .limit(10)) as { data: Tables<'profiles'>[] | null };
 
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id);
+
   return (
     <main className="flex-1 flex flex-col gap-6 px-4">
       <h2 className="font-medium text-xl mb-4">Next steps</h2>
       <p>Hi, {user.email}</p>
+      <p>Categories: {profile && profile[0]?.categories}</p>
       <div className="w-full max-w-sm mx-auto">
         <Suspense fallback={<div>Loading...</div>}>
           <ProfileCards initialProfiles={profiles || []} userId={user.id} />

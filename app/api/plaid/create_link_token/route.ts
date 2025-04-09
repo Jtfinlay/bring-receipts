@@ -27,7 +27,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
       data: { user },
     } = await supabase.auth.getUser();
 
-    console.log(req.cookies);
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -52,4 +51,3 @@ export async function POST(req: NextRequest, res: NextResponse) {
     );
   }
 }
-z;
